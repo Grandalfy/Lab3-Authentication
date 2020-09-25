@@ -58,10 +58,10 @@ public class SignInViewModel extends AndroidViewModel {
             String data = new String(error.networkResponse.data, Charset.defaultCharset())
                     .replace('\"', '\'');
             try {
-                mResponse.setValue(new JSONObject("{" +
-                        "code:" + error.networkResponse.statusCode +
-                        ", data:\"" + data +
-                        "\"}"));
+                JSONObject response = new JSONObject();
+                response.put("code", error.networkResponse.statusCode);
+                response.put("data", new JSONObject(data));
+                mResponse.setValue(response);
             } catch (JSONException e) {
                 Log.e("JSON PARSE", "JSON Parse Error in handleError");
             }
