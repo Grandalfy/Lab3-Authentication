@@ -22,7 +22,7 @@ import edu.uw.tcss450.lab3_authentication.databinding.FragmentSignInBinding;
 import edu.uw.tcss450.lab3_authentication.utils.PasswordValidator;
 
 /**
- * A simple {@link Fragment} subclass. 
+ * A simple {@link Fragment} subclass.
  */
 public class SignInFragment extends Fragment {
 

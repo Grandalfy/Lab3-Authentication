@@ -1,6 +1,7 @@
 package edu.uw.tcss450.lab3_authentication.ui.auth.register;
 
 import static edu.uw.tcss450.lab3_authentication.utils.PasswordValidator.*;
+import static edu.uw.tcss450.lab3_authentication.utils.PasswordValidator.checkClientPredicate;
 
 import android.os.Bundle;
 
@@ -80,21 +81,32 @@ public class RegisterFragment extends Fragment {
         mNameValidator.processResult(
                 mNameValidator.apply(binding.editFirst.getText().toString().trim()),
                 this::validateLast,
-                result -> binding.editEmail.setError("Please enter a valid Email address."));
+                result -> binding.editFirst.setError("Please enter a first name."));
     }
 
     private void validateLast() {
         mNameValidator.processResult(
                 mNameValidator.apply(binding.editLast.getText().toString().trim()),
                 this::validateEmail,
-                result -> binding.editEmail.setError("Please enter a valid Email address."));
+                result -> binding.editLast.setError("Please enter a last name."));
     }
 
     private void validateEmail() {
         mEmailValidator.processResult(
                 mEmailValidator.apply(binding.editEmail.getText().toString().trim()),
-                this::validatePassword,
+                this::validatePasswordsMatch,
                 result -> binding.editEmail.setError("Please enter a valid Email address."));
+    }
+
+    private void validatePasswordsMatch() {
+        PasswordValidator matchValidator =
+                checkClientPredicate(
+                        pwd -> pwd.equals(binding.editPassword2.getText().toString().trim()));
+
+        mEmailValidator.processResult(
+                matchValidator.apply(binding.editPassword1.getText().toString().trim()),
+                this::validatePassword,
+                result -> binding.editPassword1.setError("Passwords must match."));
     }
 
     private void validatePassword() {
